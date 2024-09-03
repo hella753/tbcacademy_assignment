@@ -1,13 +1,15 @@
 from tkinter import *
 from tkinter.ttk import Combobox
-from dotenv import load_dotenv
-import os
-import currencyapicom
 
-load_dotenv(override=True)
-CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
+# თუ API-ს ვიყენებთ
+# from dotenv import load_dotenv
+# import os
+# import currencyapicom
+#
+# load_dotenv(override=True)
+# CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
 
-# google მონაცემებია
+# google მონაცემებია without API
 currency_dict={"GEL_TO_USD": 0.3717, "GEL_TO_EUR": 0.3359, "GEL_TO_GBP": 0.2827, "USD_TO_GBP": 0.7624,
                "USD_TO_EUR": 0.9062, "USD_TO_GEL": 2.6900, "EUR_TO_GBP": 0.8414, "EUR_TO_GEL": 2.9775,
                "EUR_TO_USD": 1.1036, "GBP_TO_USD": 1.3116, "GBP_TO_EUR": 1.1885, "GBP_TO_GEL": 3.5383}
@@ -48,21 +50,27 @@ to_curr_list.pack(side="left")
 
 def convert_func():
     value_to_convert = int(value_to_convert_input.get())
-    get_curr = get_curr_list.get()
-    to_curr = to_curr_list.get()
+    get_curr = get_curr_list.get().upper()
+    to_curr = to_curr_list.get().upper()
 
-    # ჰარდკოდინგით
-    # converted_value = currency_dict[f'{get_curr.upper()}_TO_{to_curr.upper()}'] * value_to_convert
-    # converted_label.config(text=f"{converted_value:.2f}")
+    if get_curr in currency_list and to_curr in currency_list:
+        #---------------------- ჰარდკოდინგით ----------------------------------------------------------#
+        converted_value = currency_dict[f'{get_curr.upper()}_TO_{to_curr.upper()}'] * value_to_convert
+        converted_label.config(text=f"{converted_value:.2f}")
+        #----------------------------------------------------------------------------------------------#
 
-    # currency api გამოყენებით
+        #---------- currency api გამოყენებით --------------------#
+        # client = currencyapicom.Client(CURRENCY_API_KEY)
+        # result = client.latest(get_curr, currencies=[to_curr])
+        #
+        # curr = result["data"][to_curr]["value"]
+        # converted = value_to_convert*curr
+        # converted_label.config(text=f'{converted:.2f}')
+        #------------------------------------------------------#
 
-    client = currencyapicom.Client(CURRENCY_API_KEY)
-    result = client.latest(get_curr, currencies=[to_curr])
-
-    curr = result["data"][to_curr]["value"]
-    converted = value_to_convert*curr
-    converted_label.config(text=f'{converted:.2f}')
+    else:
+        clear_func()
+        raise ValueError
 
 def clear_func():
     get_curr_list.set("")
