@@ -18,7 +18,7 @@ currency_dict={"GEL_TO_USD": 0.3717, "GEL_TO_EUR": 0.3359, "GEL_TO_GBP": 0.2827,
 
 root = Tk()
 root.title("კონვერტაცია")
-root.config(bg="#6A9C89", )
+root.config(bg="#6A9C89")
 root.wm_iconbitmap('app_logo.ico') # image source: https://www.flaticon.com/free-icon/country-currencies_65714
 
 
