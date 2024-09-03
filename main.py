@@ -55,29 +55,26 @@ to_curr_list = Combobox(to_container, values=currency_list)
 to_curr_list.pack(side="left")
 
 def convert_func():
-    if value_to_convert_input.get().isnumeric():
-        value_to_convert = float(value_to_convert_input.get())
-        get_curr = get_curr_list.get().upper()
-        to_curr = to_curr_list.get().upper()
+    value_to_convert = float(value_to_convert_input.get())
+    get_curr = get_curr_list.get().upper()
+    to_curr = to_curr_list.get().upper()
 
-        if get_curr in currency_list and to_curr in currency_list:
-            #---------------------- ჰარდკოდინგით ----------------------------------------------------------#
-            converted_value = currency_dict[f'{get_curr.upper()}_TO_{to_curr.upper()}'] * value_to_convert
-            converted_label.config(text=f"{converted_value:.2f}")
-            #----------------------------------------------------------------------------------------------#
+    if get_curr in currency_list and to_curr in currency_list:
+        #---------------------- ჰარდკოდინგით ----------------------------------------------------------#
+        converted_value = currency_dict[f'{get_curr.upper()}_TO_{to_curr.upper()}'] * value_to_convert
+        converted_label.config(text=f"{converted_value:.2f}")
+        #----------------------------------------------------------------------------------------------#
 
-            #---------- currency api გამოყენებით --------------------#
-            # client = currencyapicom.Client(CURRENCY_API_KEY)
-            # result = client.latest(get_curr, currencies=[to_curr])
-            #
-            # curr = result["data"][to_curr]["value"]
-            # converted = value_to_convert*curr
-            # converted_label.config(text=f'{converted:.2f}')
-            #------------------------------------------------------#
-        else:
-            converted_label.config(text="ვალუტა აირჩიე სიიდან")
+        #---------- currency api გამოყენებით --------------------#
+        # client = currencyapicom.Client(CURRENCY_API_KEY)
+        # result = client.latest(get_curr, currencies=[to_curr])
+        #
+        # curr = result["data"][to_curr]["value"]
+        # converted = value_to_convert*curr
+        # converted_label.config(text=f'{converted:.2f}')
+        #------------------------------------------------------#
     else:
-        converted_label.config(text="შეიყვანეთ რიცხვი")
+        converted_label.config(text="ვალუტა აირჩიე სიიდან")
 
 
 def clear_func():
